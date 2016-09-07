@@ -2,11 +2,11 @@
 PHP most simple Framework
 
 
-Key features
-1 . JSON Routing
-2 . JSON configs
-3 . Smarty Templator
-4 . MVC  (Model View Controller) architectur
-5 . Javascript Framework corresponding to PHP Views.
-6 . Mysql Connection Wrapper for easy query management
+Key features<br>
+1 . JSON Routing<br>
+2 . JSON configs<br>
+3 . Smarty Templator<br>
+4 . MVC  (Model View Controller) architectur<br>
+5 . Javascript Framework corresponding to PHP Views.<br>
+6 . Mysql Connection Wrapper for easy query management<br>
 7 . Easy setup (no commandline need)
