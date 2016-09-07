@@ -1,2 +1,2 @@
-# Pars-Frameworf
+# Pars-Framework
 PHP most simple Framework
