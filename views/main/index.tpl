@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="viewport" content="initial-scale=1.0,width=device-width">
+        <link href="/out/all.css" type="text/css" rel="stylesheet">
+        <script type="text/javascript" src="/out/all.js"></script>
+        <title>Title</title>
+    </head>
+    <body>
+        <section id="main" class="content">
+            <header>
+                <div class="welcome">
+                    <h1>Welcome to Pars Framework</h1>
+                </div>
+            </header>
+        </section>
+        <section class="content">            
+            {include file="$VIEWS_DIR/main/view1.tpl"}
+        </section>
+    </body>
+</html>

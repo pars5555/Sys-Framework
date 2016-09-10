@@ -1,0 +1,24 @@
+{
+    "name": "naghashyan/Naghashyan-PHP-Framework-Core",
+    "description": "Naghashyan Framework",
+    "keywords": [
+        "ngs",
+        "naghashyan"
+    ],
+    "homepage": "http://ngsframework.com",
+    "type": "framework",
+    "license": [
+        "MIT"
+    ],
+    "support": {
+        "source": "https://github.com/naghashyan/Naghashyan-Framework"
+    },
+    "require": {
+        "php": ">=5.5.0",
+        "ext-curl": "*",        
+        "apache/log4php": "2.3.0",
+        "smarty/smarty": "~3.1"
+
+    }
+
+}
