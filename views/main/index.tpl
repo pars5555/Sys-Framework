@@ -3,8 +3,8 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <meta name="viewport" content="initial-scale=1.0,width=device-width">
-        <link href="/out/all.css" type="text/css" rel="stylesheet">
-        <script type="text/javascript" src="/out/all.js"></script>
+        <link href="/out/{SUB_DOMAIN_DIR_FILE_NAME}/all.css" type="text/css" rel="stylesheet">
+        <script type="text/javascript" src="/out/{SUB_DOMAIN_DIR_FILE_NAME}/all.js"></script>
         <title>Title</title>
     </head>
     <body>
@@ -15,7 +15,7 @@
                 </div>
             </header>
         </section>
-        <section class="content">            
+        <section class="content">  
             {include file="$VIEWS_DIR/main/view1.tpl"}
         </section>
     </body>

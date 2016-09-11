@@ -1,0 +1,24 @@
+{
+    "aaa/bbb/ccc/{number}/": {
+        "model": "Index",
+        "involve": [
+            {
+                "model": "Model1",
+                "involve": [
+                    {
+                        "model": "Model2"
+                    }
+                ]
+            }
+        ]
+    },
+    "sysdefault": {
+        "model": "Index",
+        "involve": [
+            {
+                "model": "Model1"
+            }
+        ]
+    }
+
+}

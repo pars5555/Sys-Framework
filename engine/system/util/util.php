@@ -5,7 +5,9 @@ namespace system\util {
     class Util {
 
         public static function getDirectoryFiles($dir, $extension, $relative = false) {
+            $dir = str_replace('\\', '/', $dir);
             $files = scandir($dir);
+            
             $results = [];
             foreach ($files as $file) {
                 $path = realpath($dir . DIRECTORY_SEPARATOR . $file);
@@ -17,8 +19,11 @@ namespace system\util {
                     $results = array_merge($results, self::getDirectoryFiles($path, $extension));
                 }
             }
+            foreach ($results as &$value) {
+                $value = str_replace('\\', '/', $value);
+            }
             if ($relative) {
-                foreach ($results as &$value) { // reference
+                foreach ($results as &$value) {
                     $value = trim(str_replace($dir, "", $value), '\\/');
                 }
             }
@@ -30,7 +35,6 @@ namespace system\util {
             return end($parts);
         }
 
-       
     }
 
 }

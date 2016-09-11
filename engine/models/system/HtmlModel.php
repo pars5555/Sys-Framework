@@ -2,12 +2,11 @@
 
 namespace models\system {
 
-    abstract class HtmlModel extends SysModel{
+    abstract class HtmlModel extends SysModel {
 
         private $smarty;
         private $params = [];
         private $involvedModels = [];
-
 
         public function addParam($key, $value) {
             $this->params[$key] = $value;
@@ -44,8 +43,8 @@ namespace models\system {
 
         public function customHeader($tpl_output, $template) {
             $jsString = '<meta name="generator" content="Pars Framework ' . Sys()->getVersion() . '" />';
-            $tpl_output = str_replace('</head>', $jsString, $tpl_output) . "\n";
             $jsString .= '<script type="text/javascript">';
+            $jsString .= 'docReady(function() {Sys.ready();});';
             $jsString .= '</script>';
             $jsString .= '</head>';
             $tpl_output = str_replace('</head>', $jsString, $tpl_output);
@@ -57,10 +56,6 @@ namespace models\system {
 
         public function getModelName() {
             return get_class($this);
-        }
-
-        public function hasJs() {
-            return false;
         }
 
     }

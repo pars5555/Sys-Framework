@@ -1,11 +1,11 @@
 <?php
 
-namespace models\main {
+namespace models\subdomain1 {
 
     class Index extends \models\system\HtmlModel {
 
         public function init() {
-            $this->addParam('index', 'main index');
+            $this->addParam('index', 'subdomain index');
         }
 
         public function getTemplatePath() {

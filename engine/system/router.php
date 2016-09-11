@@ -37,6 +37,9 @@ namespace system {
         }
 
         private function route() {
+            if ($this->checkFile()) {
+                return;
+            }
             if ($this->checkEmptyRoute()) {
                 return;
             }
@@ -50,9 +53,6 @@ namespace system {
                 return;
             }
             if ($this->_route()) {
-                return;
-            }
-            if ($this->checkFile()) {
                 return;
             }
             
@@ -93,9 +93,9 @@ namespace system {
 
         private function checkFile() {
             $filePath = realpath(PUBLIC_DIR.DIRECTORY_SEPARATOR.$this->requestUri);
-            if (file_exists($filePath))
+            if (file_exists($filePath) && is_file($filePath))
             {
-                (new \system\FileUtils)->sendFile($filePath);
+                (new util\FileStreamer)->sendFile($filePath);
                 return true;
             }
         }
@@ -147,7 +147,7 @@ namespace system {
                 SysExceptions::modelAttributeNotFound($this->requestUri);
             }
             $modelPath = trim($route['model']);
-            $modelClass = '\\' . str_replace('.', '\\', $modelPath);
+            $modelClass = '\\models\\'. SUB_DOMAIN_DIR_FILE_NAME. '\\'. str_replace('.', '\\', $modelPath);
             $modelObject = new $modelClass();
             $modelObject->init();
             return $modelObject;

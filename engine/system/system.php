@@ -21,6 +21,7 @@ class System {
         }
         return self::$instance;
     }
+     
 
     public function init() {
         system\Router::getInstance();
@@ -53,6 +54,10 @@ class System {
 
     public function getEnvironment() {
         return $this->config['ENVIRONMENT'];
+    }
+
+    public function getSubDomain() {
+        return SUB_DOMAIN;
     }
 
     public function getVersion() {
