@@ -16,8 +16,21 @@ namespace models\system {
             $this->involvedModels = $models;
         }
 
-        private function addAllParamsToSmarty($model) {
+        private function getAllModelAndInvolvedModelsNamesArray($model = null) {
+            if (!isset($model)) {
+                $model = $this;
+            }
+            $ret = [$model->getModelName()];
+            foreach ($model->involvedModels as $m) {
+                $ret = array_merge($ret, $this->getAllModelAndInvolvedModelsNamesArray($m));
+            }
+            return $ret;
+        }
 
+        private function addAllParamsToSmarty($model = null) {
+            if (!isset($model)) {
+                $model = $this;
+            }
             foreach ($model->params as $key => $value) {
                 $this->smarty->assign($key, $value);
             }
@@ -34,7 +47,7 @@ namespace models\system {
             $this->smarty->assign("SITE_PATH", SITE_PATH);
             $this->smarty->assign("VIEWS_DIR", VIEWS_DIR);
             $this->smarty->registerFilter("output", [$this, 'customHeader']);
-            $this->addAllParamsToSmarty($this);
+            $this->addAllParamsToSmarty();
             http_response_code(200);
             $this->smarty->display($this->getTemplatePath());
         }
@@ -42,6 +55,8 @@ namespace models\system {
         public abstract function getTemplatePath();
 
         public function customHeader($tpl_output, $template) {
+            var_dump($this->getAllModelAndInvolvedModelsNamesArray());
+            exit;
             $jsString = '<meta name="generator" content="Pars Framework ' . Sys()->getVersion() . '" />';
             $jsString .= '<script type="text/javascript">';
             $jsString .= 'docReady(function() {Sys.ready();});';

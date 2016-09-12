@@ -1,5 +1,8 @@
-Sys = {};
+Sys = {'models': []};
 Sys.ready = function ()
-{
-    alert(12);
-}
+{    
+};
+
+Sys.model = function (modelName, modelInstance) {
+    Sys.models.push({name: modelName, instance: modelInstance});
+};
