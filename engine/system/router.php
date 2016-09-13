@@ -55,7 +55,7 @@ namespace system {
             if ($this->_route()) {
                 return;
             }
-            
+
             SysExceptions::routeNotFound($this->requestUri);
         }
 
@@ -92,14 +92,13 @@ namespace system {
         }
 
         private function checkFile() {
-            $filePath = realpath(PUBLIC_DIR.DIRECTORY_SEPARATOR.$this->requestUri);
-            if (file_exists($filePath) && is_file($filePath))
-            {
+            $filePath = realpath(PUBLIC_DIR . DIRECTORY_SEPARATOR . $this->requestUri);
+            if (file_exists($filePath) && is_file($filePath)) {
                 (new util\FileStreamer)->sendFile($filePath);
                 return true;
             }
         }
-        
+
         private function _route() {
             $requestUriParts = explode('/', $this->requestUri);
             $dept = count($requestUriParts);
@@ -147,15 +146,14 @@ namespace system {
                 SysExceptions::modelAttributeNotFound($this->requestUri);
             }
             $modelPath = trim($route['model']);
-            $modelClass = '\\models\\'. SUB_DOMAIN_DIR_FILE_NAME. '\\'. str_replace('.', '\\', $modelPath);
+            $modelClass = '\\models\\' . SUB_DOMAIN_DIR_FILE_NAME . '\\' . str_replace('.', '\\', $modelPath);
             $modelObject = new $modelClass();
             $modelObject->init();
             return $modelObject;
         }
 
         private function defaultRoute() {
-            if (!array_key_exists('sysdefault', $this->routings))
-            {
+            if (!array_key_exists('sysdefault', $this->routings)) {
                 SysExceptions::defaultRouteNotFound();
             }
             $matchedRouting = $this->routings['sysdefault'][0];
@@ -166,7 +164,17 @@ namespace system {
         }
 
         private function dynamicRoute() {
-            
+            $modelPath = str_replace('/', '\\', trim(substr($this->requestUri, strlen(DYNAMIC_ROUTE_PREFIX)), '\\/'));
+            $modelClass = '\\models\\' . SUB_DOMAIN_DIR_FILE_NAME . '\\' . str_replace('.', '\\', $modelPath);
+            try {
+                $modelObject = new $modelClass();
+            } catch (\Exception $exc) {
+                SysExceptions::routeNotFound($this->requestUri);
+            }
+            $modelObject->init();
+//            $this->initRouteInvolvedModel($matchedRouting['data'], $modelObject);
+            //@TODO implement involved models
+            $modelObject->draw();
         }
 
         private function routeMatched($uri_parts, $requestUriParts) {

@@ -21,7 +21,6 @@ class System {
         }
         return self::$instance;
     }
-     
 
     public function init() {
         system\Router::getInstance();
@@ -62,6 +61,13 @@ class System {
 
     public function getVersion() {
         return $this->config['VERSION'];
+    }
+
+    public function isAjaxRequest() {
+        if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+            return true;
+        }
+        return false;
     }
 
     public function request($key = null, $default = null, $filter = FILTER_DEFAULT) {

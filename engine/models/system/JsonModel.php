@@ -4,32 +4,26 @@ namespace models\system {
 
     abstract class HtmlModel extends SysModel {
 
-        private $smarty;
-        private $smartyParams = [];
-        private $jsonParams = [];
+        private $params = [];
         private $involvedModels = [];
 
         public function addParam($key, $value) {
-            $this->smartyParams[$key] = $value;
-        }
-        
-        public function addJsonParam($key, $value) {
-            $this->jsonParams[$key] = $value;
+            $this->params[$key] = $value;
         }
 
         public function setInvolvedModels($models) {
             $this->involvedModels = $models;
         }
 
-        private function getJsAllModelAndInvolvedModelsArray($model = null) {
+        private function getJsAllModelAndInvolvedModelsNamesArray($model = null) {
             if (!isset($model)) {
                 $model = $this;
             }
             $modelName = $model->getModelName();
             $JsModelName = str_replace('\\', '.', trim(substr($modelName, strpos($modelName, '\\', strpos($modelName, '\\') + 1)), '\\'));
-            $ret = [['name'=>$JsModelName, 'params'=>$model->jsonParams]];
+            $ret = [$JsModelName];
             foreach ($model->involvedModels as $m) {
-                $ret = array_merge($ret, $this->getJsAllModelAndInvolvedModelsArray($m));
+                $ret = array_merge($ret, $this->getJsAllModelAndInvolvedModelsNamesArray($m));
             }
             return $ret;
         }
@@ -38,7 +32,7 @@ namespace models\system {
             if (!isset($model)) {
                 $model = $this;
             }
-            foreach ($model->smartyParams as $key => $value) {
+            foreach ($model->params as $key => $value) {
                 $this->smarty->assign($key, $value);
             }
             foreach ($model->involvedModels as $m) {
@@ -75,7 +69,7 @@ namespace models\system {
         public function customHeader($tpl_output, $template) {
             $jsString = '<meta name="generator" content="Pars Framework ' . Sys()->getVersion() . '" />';
             $jsString .= '<script type="text/javascript">';
-            $jsAllModelAndInvolvedModelsNames = json_encode($this->getJsAllModelAndInvolvedModelsArray());
+            $jsAllModelAndInvolvedModelsNames = json_encode($this->getJsAllModelAndInvolvedModelsNamesArray());
             $jsString .= 'docReady(function() {Sys.ready(' . $jsAllModelAndInvolvedModelsNames . ');});';
             $jsString .= '</script>';
             $jsString .= '</head>';

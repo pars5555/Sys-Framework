@@ -6,7 +6,7 @@
                 "model": "Model1",
                 "involve": [
                     {
-                        "model": "Model2"
+                        "model": "ddd.Model2"
                     }
                 ]
             }

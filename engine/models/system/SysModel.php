@@ -20,7 +20,7 @@ namespace models\system {
             $log = $this->log();
             if (!empty($log)) {
                 $reflect = new \ReflectionClass($this);
-                $name = str_replace(['/', '\\'], '.',$reflect->getName());
+                $name = str_replace(['/', '\\'], '.', $reflect->getName());
                 $logFilePath = LOG_DIR . '/' . $name . '.log';
                 \Logger::configure(['file' => $logFilePath, 'name' => $name, 'level' => Sys()->getConfig('log_level')], new \system\util\SysLoggerConfigurator());
                 $this->logger = \Logger::getLogger($name);
@@ -36,8 +36,7 @@ namespace models\system {
         }
 
         protected function getLogger() {
-            if (!isset($this->logger))
-            {
+            if (!isset($this->logger)) {
                 \system\SysExceptions::loggerIsNotEnabled();
             }
             return $this->logger;
