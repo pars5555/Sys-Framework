@@ -2,7 +2,7 @@ Sys.model('Index',{
     error:{
         
     },
-    init:function(){        
-        alert('Index');
+    init:function(){    
+        console.log('index');
     }
 });

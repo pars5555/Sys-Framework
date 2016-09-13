@@ -1,8 +1,8 @@
-Sys.model('ddd.Model2',{
+Sys.model('Model2',{
     error:function(data){        
         
     },
     init:function(data){        
-        console.log(data);
+        console.log('model2');
     }
 });

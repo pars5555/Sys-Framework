@@ -15,6 +15,15 @@ namespace system {
         public static function defaultRouteNotFound() {
             throw new \Exception('No default route found. Please <sysdefault> route in routings.js file', 10020);
         }
+        public static function noMysqlConfig() {
+            throw new \Exception('No mysql config found in project config file. Please add <mysql> settings in config file. ("mysql": {"host": "127.0.0.1","user": "root","pass": "","name": "instmanager"})', 10020);
+            
+        }
+        
+        public static function unknownError() {
+            throw new \Exception('Unknown Error', 10020);
+            
+        }
 
         public static function modelAttributeNotFound($route) {
             throw new \Exception('No <model> attibute found in the route: ' . $route, 10021);

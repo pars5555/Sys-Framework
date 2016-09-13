@@ -1,8 +1,10 @@
 Sys.request = function (url, method, params, onDone, onError) {
     method = typeof method !== 'undefined' ? method : 'POST';
     params = typeof params !== 'undefined' ? params : {};
-    onDone = typeof onDone !== 'undefined' ? onDone : function () {};
-    onError = typeof onError !== 'undefined' ? onError : function () {};
+    onDone = typeof onDone !== 'undefined' ? onDone : function () {
+    };
+    onError = typeof onError !== 'undefined' ? onError : function () {
+    };
     if (window.XMLHttpRequest) {
         var httpRequest = new XMLHttpRequest();
     } else {
@@ -44,12 +46,14 @@ Sys.get = function (url, params, onDone, onError) {
 Sys.get = function (url, params, onDone, onError) {
     this.request(url, 'PUT', params, onDone, onError);
 };
-Sys.requestModel = function (modelName, params, containerId, drawMode)
+Sys.requestModel = function (modelName, params, containerId, drawMode, onSuccess, onError)
 {
     var model = Sys.findModel(modelName);
-    var onDone = typeof model.init !== 'undefined' ? model.init : function () {};
-    var onError = typeof model.error !== 'undefined' ? model.error : function () {};
-    var drawMode = typeof drawMode !== 'undefined' ? drawMode : Sys.drawModes.REPLACE;
+    var onDone = typeof model.init !== 'undefined' ? model.init : function () {
+    };
+    var onErr = typeof model.error !== 'undefined' ? model.error : function () {
+    };
+    drawMode = typeof drawMode !== 'undefined' ? drawMode : Sys.drawModes.REPLACE;
     var url = '//' + Sys.host + '/_sys_/' + modelName.replace('.', '/');
     Sys.post(url, params, function (responseText) {
         var responseData;
@@ -66,9 +70,16 @@ Sys.requestModel = function (modelName, params, containerId, drawMode)
                 Sys._addHtmlInContainer(html, drawMode, container);
             }
         }
+        if (typeof onSuccess === 'function') {
+            onSuccess(responseData);
+        }
         onDone(responseData);
     }, function (res) {
-        onError(res);
+        if (typeof onError === 'function') {
+            onError(res);
+
+        }
+        onErr(res);
     });
 };
 

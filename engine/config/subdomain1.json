@@ -1,0 +1,15 @@
+{
+    "VERSION": "1.0.0",
+    "ENVIRONMENT": "dev",
+    "log": {
+        "dump_request": true,
+        "dump_input": true
+    },
+    "mysql": {
+        "host": "127.0.0.1",
+        "user": "root",
+        "pass": "",
+        "name": "instmanager"
+    },
+    "log_level": "all"
+}
