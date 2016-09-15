@@ -13,6 +13,7 @@ class System {
         $this->autoIncludeNamespaceUses();
         $this->config = json_decode(file_get_contents(CONFIG_FILE), true);
         $this->routing = json_decode(file_get_contents(ROUTING_FILE), true);
+        require_once CONSTANTS_FILE;
     }
 
     public static function getInstance() {

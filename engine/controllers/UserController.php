@@ -13,11 +13,11 @@ namespace controllers {
             return self::$instance;
         }
 
-        protected function getTableName() {
+        public function getTableName() {
             return 'users';
         }
 
-        protected function createObject() {
+        public function createRecordInstance() {
             return new \records\User(); 
         }
 
