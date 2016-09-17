@@ -6,14 +6,18 @@ namespace models\subdomain1 {
 
         public function init() {
             $user = \controllers\UserController::getInstance()->selectById(1);
-            var_dump($user->name);exit;
+            new \system\security\users\User1();
+            if ($user) {
+                var_dump($user->name);
+                exit;
+            }
             $this->addParam('model1', 'subdomain1 Model1');
         }
 
         public function getTemplatePath() {
             return VIEWS_DIR . "/main/view1.tpl";
         }
-        
+
     }
 
 }

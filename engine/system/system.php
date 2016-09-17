@@ -77,7 +77,7 @@ class System {
         }
         return \system\Request::getInstance();
     }
-
+    
     private function autoIncludeNamespaceUses() {
         spl_autoload_register(function ($use) {
             $filePath = realpath(ENGINE_DIR . '/' . $use . '.php');

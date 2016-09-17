@@ -4,6 +4,8 @@ namespace system {
 
     class Request {
 
+        private static $instance;
+
         private function __construct() {
             
         }
@@ -41,6 +43,14 @@ namespace system {
 
         public function cookie($key, $default = null, $filter = FILTER_DEFAULT) {
             $ret = filter_input(INPUT_COOKIE, $key, $filter);
+            if ($ret === null) {
+                return $default;
+            }
+            return $ret;
+        }
+        
+        public function session($key, $default = null, $filter = FILTER_DEFAULT) {
+            $ret = filter_input(INPUT_SESSION, $key, $filter);
             if ($ret === null) {
                 return $default;
             }

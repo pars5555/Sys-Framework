@@ -1,7 +1,11 @@
 <?php
 
-define('SITE_PATH', '//' . $_SERVER["HTTP_HOST"]);
-define('SUB_DOMAIN', implode('.',array_slice(explode('.', $_SERVER['HTTP_HOST']),0 ,-2)));
+define('HOST', $_SERVER["HTTP_HOST"]);
+define('SITE_PATH', '//' . HOST);
+$__host_names = explode(".", HOST);
+$bottom_host_name = $__host_names [count($__host_names )-2] . "." . $__host_names [count($__host_names )-1];
+define('DOMAIN', $bottom_host_name);
+define('SUB_DOMAIN', implode('.',array_slice($__host_names ,0 ,-2)));
 define('SUB_DOMAIN_DIR_FILE_NAME', empty(SUB_DOMAIN) || SUB_DOMAIN == 'www'?'main':SUB_DOMAIN);
 define('PROJECT_ROOT', dirname(dirname(dirname(__FILE__))));
 define('ENGINE_DIR', PROJECT_ROOT . DIRECTORY_SEPARATOR . 'engine');

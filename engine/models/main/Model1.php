@@ -5,6 +5,7 @@ namespace models\main {
     class Model1 extends \models\system\HtmlModel {
 
         public function init() {
+            new \system\security\users\User1();
             $this->addParam('model1', 'main Model1');
         }
 

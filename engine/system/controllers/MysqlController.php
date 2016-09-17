@@ -151,7 +151,15 @@ namespace system\controllers {
             return intval($this->fetchField($sqlQuery, 'count'));
         }
 
-        public function selectAdvance($fieldsArray = '*', $filters = null, $groupByFieldsArray = null, $orderByFieldsArray = null, $orderByAscDesc = "ASC", $offset = null, $limit = null, $mapByField = False) {
+        public function selectAdvanceOne($filters = []) {
+            $objects = $this->selectAdvance($filters);
+            if (!empty($objects)) {
+                return $objects[0];
+            }
+            return false;
+        }
+
+        public function selectAdvance($fieldsArray = '*', $filters = [], $groupByFieldsArray = [], $orderByFieldsArray = [], $orderByAscDesc = "ASC", $offset = null, $limit = null, $mapByField = False) {
             $where = $this->getWhereSubQueryByFilters($filters);
             $groupBy = $this->getGroupBySubQueryByFilters($groupByFieldsArray);
             $fields = $this->getFieldsSubQuery($fieldsArray);

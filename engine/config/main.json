@@ -11,5 +11,10 @@
         "pass": "",
         "name": "test"
     },
-    "log_level": "all"
+    "log_level": "all",
+    "login":{
+        "type": "cookie",
+        "domain": "all"
+    }
+    
 }

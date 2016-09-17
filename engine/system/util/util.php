@@ -7,7 +7,7 @@ namespace system\util {
         public static function getDirectoryFiles($dir, $extension, $relative = false) {
             $dir = str_replace('\\', '/', $dir);
             $files = scandir($dir);
-            
+
             $results = [];
             foreach ($files as $file) {
                 $path = realpath($dir . DIRECTORY_SEPARATOR . $file);
@@ -33,6 +33,10 @@ namespace system\util {
         public static function getFileExtension($file) {
             $parts = explode('.', $file);
             return end($parts);
+        }
+
+        public static function generateHash() {
+            return md5(uniqid());
         }
 
     }
