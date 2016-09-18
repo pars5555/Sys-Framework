@@ -9,6 +9,10 @@ namespace system\security\users {
             $this->setParam($loginConf['params']['user_type'], md5(get_class($this)));
         }
 
+        public abstract function validate();
+
+        public abstract function login($id);
+
         public function setHash($hash) {
             $loginConf = Sys()->getConfig("login");
             $this->setParam($loginConf['params']['user_hash'], $hash);
@@ -28,7 +32,7 @@ namespace system\security\users {
             $loginConf = Sys()->getConfig("login");
             return $this->getParam($loginConf['params']['user_id']);
         }
-        
+
         public function getType() {
             $loginConf = Sys()->getConfig("login");
             return $this->getParam($loginConf['params']['user_type']);

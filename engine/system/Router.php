@@ -147,9 +147,18 @@ namespace system {
             }
             $modelPath = trim($route['model']);
             $modelClass = '\\models\\' . SUB_DOMAIN_DIR_FILE_NAME . '\\' . str_replace('.', '\\', $modelPath);
-            $modelObject = new $modelClass();
-            $modelObject->getAccessGroups();
+            return $this->initModel($modelClass);
+        }
+        
+        private function initModel($modelClassPath)
+        {
+            try {
+                $modelObject = new $modelClassPath();
+            } catch (\Exception $exc) {
+                SysExceptions::routeNotFound($this->requestUri);
+            }
             $modelObject->init();
+            controllers\SecurityController::get;
             return $modelObject;
         }
 
@@ -167,14 +176,9 @@ namespace system {
         private function dynamicRoute() {
             $modelPath = str_replace('/', '\\', trim(substr($this->requestUri, strlen(DYNAMIC_ROUTE_PREFIX)), '\\/'));
             $modelClass = '\\models\\' . SUB_DOMAIN_DIR_FILE_NAME . '\\' . str_replace('.', '\\', $modelPath);
-            try {
-                $modelObject = new $modelClass();
-            } catch (\Exception $exc) {
-                SysExceptions::routeNotFound($this->requestUri);
-            }
-            $modelObject->init();
-//            $this->initRouteInvolvedModel($matchedRouting['data'], $modelObject);
-            //@TODO implement involved models
+            $modelObject = $this->initModel($modelClass);
+            //@TODO implement initModelInvolvedModel
+            //$this->initModelInvolvedModel($modelObject);
             $modelObject->draw();
         }
 
