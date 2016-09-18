@@ -4,27 +4,34 @@ namespace system\security\users {
 
     abstract class AbstractUser {
 
-        protected $id;
-        protected $hash;
-
         public function __construct() {
-            $this->setParam('type', md5(get_class($this)));
+            $loginConf = Sys()->getConfig("login");
+            $this->setParam($loginConf['params']['user_type'], md5(get_class($this)));
         }
 
         public function setHash($hash) {
-            $this->setParam("hash", $hash);
+            $loginConf = Sys()->getConfig("login");
+            $this->setParam($loginConf['params']['user_hash'], $hash);
         }
 
         public function setId($id) {
-            $this->setParam("id", $id);
+            $loginConf = Sys()->getConfig("login");
+            $this->setParam($loginConf['params']['user_id'], $id);
         }
 
         public function getHash() {
-            return $this->getParam("hash");
+            $loginConf = Sys()->getConfig("login");
+            return $this->getParam($loginConf['params']['user_hash']);
         }
 
         public function getId() {
-            return $this->getParam("id");
+            $loginConf = Sys()->getConfig("login");
+            return $this->getParam($loginConf['params']['user_id']);
+        }
+        
+        public function getType() {
+            $loginConf = Sys()->getConfig("login");
+            return $this->getParam($loginConf['params']['user_type']);
         }
 
         protected function setParam($name, $value) {
@@ -56,7 +63,7 @@ namespace system\security\users {
             if (isset($loginParams['domain']) && in_array($loginParams['domain'], ['all', '*'])) {
                 $domain = '.' . $domain;
             }
-            \system\Session::getInstance()->setCookieParam($name, $value, time() + 60 * 60 * 24 * 30, '/', $domain);
+            \system\Session::getInstance()->setCookieParam($name, $value, time() + 60 * 60 * 24 * 30, $domain);
         }
 
     }

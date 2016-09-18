@@ -148,6 +148,7 @@ namespace system {
             $modelPath = trim($route['model']);
             $modelClass = '\\models\\' . SUB_DOMAIN_DIR_FILE_NAME . '\\' . str_replace('.', '\\', $modelPath);
             $modelObject = new $modelClass();
+            $modelObject->getAccessGroups();
             $modelObject->init();
             return $modelObject;
         }

@@ -9,7 +9,6 @@ namespace models\subdomain1 {
             new \system\security\users\User1();
             if ($user) {
                 var_dump($user->name);
-                exit;
             }
             $this->addParam('model1', 'subdomain1 Model1');
         }

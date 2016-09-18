@@ -7,7 +7,7 @@ namespace system {
         private static $instance = null;
 
         private function __construct() {
-            //Session::startSession();
+            Session::startSession();
         }
 
         public static function getInstance() {

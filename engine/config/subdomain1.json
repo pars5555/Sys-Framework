@@ -12,8 +12,13 @@
         "name": "test"
     },
     "log_level": "all",
-    "login":{
+    "login": {
         "type": "cookie",
-        "domain": "all"
+        "domain": "all",
+        "params": {
+            "user_id": "sys_uid",
+            "user_type": "sys_utype",
+            "user_hash": "sys_uhash"
+        }
     }
 }

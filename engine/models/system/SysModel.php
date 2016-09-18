@@ -15,6 +15,8 @@ namespace models\system {
         public abstract function draw();
 
         public abstract function getModelName();
+        
+        public abstract function getAccessGroups();
 
         private function initLogger() {
             $log = $this->log();

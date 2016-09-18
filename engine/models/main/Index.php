@@ -12,6 +12,10 @@ namespace models\main {
             return VIEWS_DIR . "/main/index.tpl";
         }
 
+        public function getAccessGroups() {
+            return [new \system\security\groups\Group1()];
+        }
+
     }
 
 }
