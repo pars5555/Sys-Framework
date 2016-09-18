@@ -8,6 +8,11 @@ namespace system {
             header('HTTP/1.0 500 Forbidden');
             throw new \Exception('File not found: ' . $filePath, 10040);
         }
+        
+        public static function modelNotFound($classPath) {
+            header('HTTP/1.0 500 Forbidden');
+            throw new \Exception('Model not found: ' . $classPath, 10041);
+        }
 
         public static function routeNotFound($route) {
             header('HTTP/1.0 404 Forbidden');

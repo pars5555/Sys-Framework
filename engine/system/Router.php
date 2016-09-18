@@ -55,6 +55,9 @@ namespace system {
             if ($this->_route()) {
                 return;
             }
+            if ($this->checkInstallRoute()) {
+                return;
+            }
 
             SysExceptions::routeNotFound($this->requestUri);
         }
@@ -144,6 +147,16 @@ namespace system {
             }
         }
 
+        private function checkInstallRoute() {
+            if ($this->requestUri === 'install') {
+                $modelClass = '\\models\\system\\install\\Index';
+                $modelObject = $this->initModel($modelClass);
+                $modelObject->draw();
+                return true;
+            }
+            return false;
+        }
+
         private function getRouteInvolves($route) {
             if (array_key_exists('involve', $route) && !empty($route['involve'])) {
                 return $route['involve'];
@@ -164,7 +177,7 @@ namespace system {
             try {
                 $modelObject = new $modelClassPath();
             } catch (\Exception $exc) {
-                SysExceptions::routeNotFound($this->requestUri);
+                SysExceptions::modelNotFound($modelClassPath);
             }
             controllers\SecurityController::getInstance()->validate($modelObject);
             $modelObject->init();
