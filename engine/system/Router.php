@@ -113,12 +113,22 @@ namespace system {
             }
 
             $modelObject = $this->initRouteModel($matchedRouting['data']);
-            $this->initRouteInvolvedModel($matchedRouting['data'], $modelObject);
+            $this->initRouteInvolvedModels($matchedRouting['data'], $modelObject);
             $modelObject->draw();
             return true;
         }
 
-        private function initRouteInvolvedModel($route, $model) {
+        private function initModelInvolvedModels($model) {
+            $models = [];
+            foreach ($model->getInvolvedModelsClasses() as $modelClassFullName) {
+                $m = $this->initModel($modelClassFullName);
+                $models = $m;
+                $this->initModelInvolvedModels($m);
+            }
+            $model->setInvolvedModels($models);
+        }
+
+        private function initRouteInvolvedModels($route, $model) {
             $involves = $this->getRouteInvolves($route);
             if (!empty($involves)) {
                 if (!array($involves)) {
@@ -128,7 +138,7 @@ namespace system {
                 foreach ($involves as $involve) {
                     $m = $this->initRouteModel($involve);
                     $models [] = $m;
-                    $this->initRouteInvolvedModel($involve, $m);
+                    $this->initRouteInvolvedModels($involve, $m);
                 }
                 $model->setInvolvedModels($models);
             }
@@ -149,16 +159,16 @@ namespace system {
             $modelClass = '\\models\\' . SUB_DOMAIN_DIR_FILE_NAME . '\\' . str_replace('.', '\\', $modelPath);
             return $this->initModel($modelClass);
         }
-        
-        private function initModel($modelClassPath)
-        {
+
+        private function initModel($modelClassPath) {
             try {
                 $modelObject = new $modelClassPath();
             } catch (\Exception $exc) {
                 SysExceptions::routeNotFound($this->requestUri);
             }
+            controllers\SecurityController::getInstance()->validate($modelObject);
             $modelObject->init();
-            controllers\SecurityController::get;
+
             return $modelObject;
         }
 
@@ -168,7 +178,7 @@ namespace system {
             }
             $matchedRouting = $this->routings['sysdefault'][0];
             $modelObject = $this->initRouteModel($matchedRouting['data']);
-            $this->initRouteInvolvedModel($matchedRouting['data'], $modelObject);
+            $this->initRouteInvolvedModels($matchedRouting['data'], $modelObject);
             $modelObject->draw();
             return true;
         }
@@ -177,8 +187,7 @@ namespace system {
             $modelPath = str_replace('/', '\\', trim(substr($this->requestUri, strlen(DYNAMIC_ROUTE_PREFIX)), '\\/'));
             $modelClass = '\\models\\' . SUB_DOMAIN_DIR_FILE_NAME . '\\' . str_replace('.', '\\', $modelPath);
             $modelObject = $this->initModel($modelClass);
-            //@TODO implement initModelInvolvedModel
-            //$this->initModelInvolvedModel($modelObject);
+            $this->initModelInvolvedModels($modelObject);
             $modelObject->draw();
         }
 

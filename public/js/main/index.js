@@ -3,6 +3,5 @@ Sys.model('Index',{
         
     },
     init:function(){    
-        console.log('index');
     }
 });

@@ -14,7 +14,7 @@ Sys.request = function (url, method, params, onDone, onError) {
         if (httpRequest.readyState === 4) {
             if (httpRequest.status === 200) {
                 onDone(httpRequest.responseText);
-            } else if (httpRequest.status === 400) {
+            } else {
                 onError(httpRequest.responseText);
             }
         }
@@ -66,6 +66,7 @@ Sys.requestModel = function (modelName, params, containerId, drawMode, onSuccess
         if (typeof responseData === "object" && responseData !== null) {
             if ('html' in responseData && container !== null)
             {
+                
                 var html = responseData['html'];
                 Sys._addHtmlInContainer(html, drawMode, container);
             }
@@ -87,7 +88,7 @@ Sys._addHtmlInContainer = function (html, drawMode, container) {
     switch (drawMode)
     {
         case Sys.drawModes.REPLACE:
-            container.innerHTML = html;
+            container.outerHTML = html;
             break;
         case Sys.drawModes.APPEND:
             container.insertAdjacentHTML('beforeend', html);
@@ -100,6 +101,9 @@ Sys._addHtmlInContainer = function (html, drawMode, container) {
             break;
         case Sys.drawModes.AFTER:
             container.insertAdjacentHTML('afterend', html);
+            break;
+        default:
+            container.innerHTML = html;
             break;
     }
 }

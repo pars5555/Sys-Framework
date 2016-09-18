@@ -12,6 +12,10 @@ namespace models\main {
             return VIEWS_DIR . "/main/view2.tpl";
         }
 
+        public function getAccessGroups() {
+            return ['group1'];
+        }
+
     }
 
 }

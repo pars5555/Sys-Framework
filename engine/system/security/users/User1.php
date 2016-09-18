@@ -17,8 +17,13 @@ namespace system\security\users {
 
         public function validate() {
             $id = intval($this->getId());
-            $user = UserController::getInstance()->selectAdvanceOne(['id', '=', $id, 'AND', 'hash', '=', "'" . $this->getHash() . "'"]);
+            $hash = intval($this->getHash());
+            $user = UserController::getInstance()->selectAdvanceOne(['id', '=', $id, 'AND', 'hash', '=', "'" . $hash . "'"]);
             return !empty($user);
+        }
+
+        public function getGroups() {
+            return ['group1', 'group2'];
         }
 
     }

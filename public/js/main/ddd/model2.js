@@ -3,6 +3,5 @@ Sys.model('Model2',{
         
     },
     init:function(data){        
-        console.log('model2');
     }
 });

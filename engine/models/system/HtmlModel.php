@@ -7,18 +7,13 @@ namespace models\system {
         private $smarty;
         private $smartyParams = [];
         private $jsonParams = [];
-        private $involvedModels = [];
 
         public function addParam($key, $value) {
             $this->smartyParams[$key] = $value;
         }
-        
+
         public function addJsonParam($key, $value) {
             $this->jsonParams[$key] = $value;
-        }
-
-        public function setInvolvedModels($models) {
-            $this->involvedModels = $models;
         }
 
         private function getJsAllModelAndInvolvedModelsArray($model = null) {
@@ -27,8 +22,8 @@ namespace models\system {
             }
             $modelName = $model->getModelName();
             $JsModelName = str_replace('\\', '.', trim(substr($modelName, strpos($modelName, '\\', strpos($modelName, '\\') + 1)), '\\'));
-            $ret = [['name'=>$JsModelName, 'params'=>$model->jsonParams]];
-            foreach ($model->involvedModels as $m) {
+            $ret = [['name' => $JsModelName, 'params' => $model->jsonParams]];
+            foreach ($model->getInvolvedModels() as $m) {
                 $ret = array_merge($ret, $this->getJsAllModelAndInvolvedModelsArray($m));
             }
             return $ret;
@@ -41,7 +36,7 @@ namespace models\system {
             foreach ($model->smartyParams as $key => $value) {
                 $this->smarty->assign($key, $value);
             }
-            foreach ($model->involvedModels as $m) {
+            foreach ($model->getInvolvedModels() as $m) {
                 $this->addAllParamsToSmarty($m);
             }
         }
@@ -86,9 +81,7 @@ namespace models\system {
             return $tpl_output;
         }
 
-        public function getModelName() {
-            return get_class($this);
-        }
+        
 
     }
 

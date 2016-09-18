@@ -126,7 +126,7 @@ namespace system\controllers {
          */
         public function selectAll() {
             $sqlQuery = sprintf("SELECT * FROM `%s`", $this->getTableName());
-            return $this->fetchRows($sqlQuery);
+            return $this->fetchAll($sqlQuery);
         }
 
         /**
@@ -142,7 +142,7 @@ namespace system\controllers {
 
         public function selectByIds($ids) {
             $sqlQuery = sprintf("SELECT * FROM `%s` WHERE `id` in (%s) ", $this->getTableName(), implode(',', $ids));
-            return $this->fetchRows($sqlQuery);
+            return $this->fetchAll($sqlQuery);
         }
 
         public function countAdvance($filters = null) {
@@ -152,7 +152,7 @@ namespace system\controllers {
         }
 
         public function selectAdvanceOne($filters = []) {
-            $objects = $this->selectAdvance($filters);
+            $objects = $this->selectAdvance('*',$filters);
             if (!empty($objects)) {
                 return $objects[0];
             }
@@ -181,7 +181,7 @@ namespace system\controllers {
             if (isset($limit) && $limit > 0) {
                 $sqlQuery .= ' LIMIT ' . $offset . ', ' . $limit;
             }
-            $ret = $this->fetchRows($sqlQuery);
+            $ret = $this->fetchAll($sqlQuery);
             if ($mapByField) {
                 return $this->mapObjectsByField($ret, $mapByField);
             }
@@ -226,7 +226,7 @@ namespace system\controllers {
 
         public function selectByField($fieldName, $fieldValue) {
             $sqlQuery = sprintf("SELECT * FROM `%s` WHERE `%s` = :value ", $this->getTableName(), $fieldName);
-            return $this->fetchRows($sqlQuery, array("value" => $fieldValue));
+            return $this->fetchAll($sqlQuery, array("value" => $fieldValue));
         }
 
         public function deleteByField($fieldName, $fieldValue) {

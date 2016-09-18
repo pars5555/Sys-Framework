@@ -5,6 +5,8 @@ namespace models\system {
     abstract class SysModel {
 
         private $logger = null;
+        private $involvedModels = [];
+        private $containerModel = null;
 
         function __construct() {
             $this->initLogger();
@@ -14,9 +16,36 @@ namespace models\system {
 
         public abstract function draw();
 
-        public abstract function getModelName();
-        
-        public abstract function getAccessGroups();
+        public function getModelName() {
+            return get_class($this);
+        }
+
+        public function getAccessGroups() {
+            return [];
+        }
+
+        public function getInvolvedModelsClasses() {
+            return [];
+        }
+
+        public function setContainerModel($model) {
+            $this->containerModel = $model;
+        }
+
+        public function getContainerModel() {
+            return $this->containerModel;
+        }
+
+        public function setInvolvedModels($models) {
+            foreach ($models as $model) {
+                $model->setContainerModel($this);
+            }
+            $this->involvedModels = $models;
+        }
+
+        public function getInvolvedModels() {
+            return $this->involvedModels;
+        }
 
         private function initLogger() {
             $log = $this->log();

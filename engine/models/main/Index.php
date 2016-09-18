@@ -13,7 +13,12 @@ namespace models\main {
         }
 
         public function getAccessGroups() {
-            return [new \system\security\groups\Group1()];
+            return [];
+        }
+
+        public function getInvolvedModelsClasses() {
+            return [Model2];
+            
         }
 
     }

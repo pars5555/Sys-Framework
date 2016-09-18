@@ -56,6 +56,8 @@ namespace system\security\users {
             }
         }
 
+        abstract public function getGroups();
+
         private function setSessionParam($name, $value) {
             \system\Session::getInstance()->setSessionParam($name, $value);
         }

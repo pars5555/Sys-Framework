@@ -16,17 +16,35 @@ namespace system\controllers {
             }
             return self::$instance;
         }
-        
-        public function getAuthUser()
-        {
+
+        public function getAuthUser() {
             $loginConf = Sys()->getConfig("login");
+            $typeMd5 = "";
             if ($loginConf['type'] === 'cookie') {
-                \system\Request::getInstance()->cookie($loginConf['params']['user_type']);
+                $typeMd5 = \system\Request::getInstance()->cookie($loginConf['params']['user_type']);
+                $userHash= \system\Request::getInstance()->cookie($loginConf['params']['user_hash']);
+                $userId= \system\Request::getInstance()->cookie($loginConf['params']['user_id']);
             } else {
-                \system\Request::getInstance()->session($loginConf['params']['user_type']);
+                $typeMd5 = \system\Request::getInstance()->session($loginConf['params']['user_type']);
+                $userHash= \system\Request::getInstance()->session($loginConf['params']['user_hash']);
+                $userId= \system\Request::getInstance()->session($loginConf['params']['user_id']);
             }
-            
-            \system\Session::getInstance();
+            $user = $this->findUserObjectByTypeMd5($typeMd5);
+            $user ->setHash($userHash);
+            $user ->setId($userId);
+            return $user;
+        }
+
+        private function findUserObjectByTypeMd5($typeMd5) {
+            $userTypeFiles = \system\util\Util::getDirectoryFiles(SECURITY_USERS_DIR, 'php', true);
+            foreach ($userTypeFiles as $fileName) {
+                $classFullName = trim('system\\security\\users\\' . $fileName,'.php');
+                if ($typeMd5 === md5($classFullName))
+                {
+                    return new $classFullName();
+                }
+            }
+            return false;
         }
 
     }
