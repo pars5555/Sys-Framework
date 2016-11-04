@@ -23,12 +23,20 @@ namespace system\controllers {
                 return true;
             }
             $authUser = AuthController::getInstance()->getAuthUser();
-            $authUser->validate();
+            if (!$authUser)
+            {
+                return false;
+            }
+            if (!$authUser->validate())
+            {
+                return false;
+            }
             $userGroups = $authUser->getGroups();
             $validated = !empty(array_intersect($userGroups, $modelAccessGroups));
             if (!$validated) {
-                \system\SysExceptions::noAccessModel($model);
+                return false;
             }
+            return true;
         }
 
     }

@@ -179,9 +179,12 @@ namespace system {
             } catch (\Exception $exc) {
                 SysExceptions::modelNotFound($modelClassPath);
             }
-            controllers\SecurityController::getInstance()->validate($modelObject);
+            $validated = controllers\SecurityController::getInstance()->validate($modelObject);
+            if (!$validated) {
+                $modelObject->noAccess();
+                return;
+            }
             $modelObject->init();
-
             return $modelObject;
         }
 

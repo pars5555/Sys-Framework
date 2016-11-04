@@ -22,25 +22,28 @@ namespace system\controllers {
             $typeMd5 = "";
             if ($loginConf['type'] === 'cookie') {
                 $typeMd5 = \system\Request::getInstance()->cookie($loginConf['params']['user_type']);
-                $userHash= \system\Request::getInstance()->cookie($loginConf['params']['user_hash']);
-                $userId= \system\Request::getInstance()->cookie($loginConf['params']['user_id']);
+                $userHash = \system\Request::getInstance()->cookie($loginConf['params']['user_hash']);
+                $userId = \system\Request::getInstance()->cookie($loginConf['params']['user_id']);
             } else {
                 $typeMd5 = \system\Request::getInstance()->session($loginConf['params']['user_type']);
-                $userHash= \system\Request::getInstance()->session($loginConf['params']['user_hash']);
-                $userId= \system\Request::getInstance()->session($loginConf['params']['user_id']);
+                $userHash = \system\Request::getInstance()->session($loginConf['params']['user_hash']);
+                $userId = \system\Request::getInstance()->session($loginConf['params']['user_id']);
             }
-            $user = $this->findUserObjectByTypeMd5($typeMd5);
-            $user ->setHash($userHash);
-            $user ->setId($userId);
-            return $user;
+            if ($typeMd5) {
+
+                $user = $this->findUserObjectByTypeMd5($typeMd5);
+                $user->setHash($userHash);
+                $user->setId($userId);
+                return $user;
+            }
+            return null;
         }
 
         private function findUserObjectByTypeMd5($typeMd5) {
             $userTypeFiles = \system\util\Util::getDirectoryFiles(SECURITY_USERS_DIR, 'php', true);
             foreach ($userTypeFiles as $fileName) {
-                $classFullName = trim('system\\security\\users\\' . $fileName,'.php');
-                if ($typeMd5 === md5($classFullName))
-                {
+                $classFullName = trim('system\\security\\users\\' . $fileName, '.php');
+                if ($typeMd5 === md5($classFullName)) {
                     return new $classFullName();
                 }
             }

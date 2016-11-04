@@ -16,6 +16,10 @@ namespace models\system {
 
         public abstract function draw();
 
+        public function noAccess() {
+            \system\SysExceptions::noAccessModel($this);
+        }
+
         public function getModelName() {
             return get_class($this);
         }

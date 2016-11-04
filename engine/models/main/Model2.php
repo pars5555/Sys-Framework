@@ -13,7 +13,7 @@ namespace models\main {
         }
 
         public function getAccessGroups() {
-            return ['group1'];
+            return [];
         }
 
     }
