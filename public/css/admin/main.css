@@ -1,0 +1,21 @@
+.button.btn-primary {
+    background-color: #1a437c; 
+}
+.button {
+    font-size: 16px;
+    border: none;
+    margin-top: 10px;
+    line-height: 25px;
+    display: inline-block;
+    cursor: pointer;
+    margin-left: 20px;
+    padding: 5px 15px;
+    color: #fff;
+    background-color: #cdcdcd; 
+}
+
+
+.table-cell .chosen-container{
+    width: 100% !important;
+    max-width: 400px;
+}

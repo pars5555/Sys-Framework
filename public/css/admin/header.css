@@ -1,0 +1,51 @@
+.header-main {
+    background-color: #1C5FB1;
+    position: absolute;
+    width: 100%;
+    left: 0;
+    top: 0;
+    z-index: 100;
+}
+
+.header-main .container {
+    padding: 0 10px;
+}
+.header-main .container .logo-cell {
+    width: 190px;
+    min-width: 190px;
+    vertical-align: middle
+}
+.header-main .container .action-cell { 
+    width: 100%;
+    text-align: right;
+    padding-right: 30px;
+    vertical-align: middle;
+}
+
+.header-main .container .logo-content.logo-am a {
+    background: rgba(255,255,255,0.8) url("../../img/right-logo-hy.gif") no-repeat scroll center center / contain ;
+}
+.header-main .container .logo-content.logo-en a {
+    background: rgba(255,255,255,0.8) url("../../img/right-logo-en.gif") no-repeat scroll center center / contain ;
+}
+.header-main .container .logo-content.logo-ru a {
+    background: rgba(255,255,255,0.8) url("../../img/right-logo-ru.gif") no-repeat scroll center center / contain ;
+}
+
+.header-main .container .logged-user-name {
+    font-size: 15px;
+    color: #fff;
+    text-transform: uppercase;  
+    margin-right: 20px;
+}
+.header-main .container .logout-btn {
+    background-color: #1A437C;
+    padding: 30px 15px;
+    color: #fff;
+    font-size: 13px;
+    font-family: 'aramubold';
+    text-transform: uppercase;
+}
+.header-main .container .logout-btn:hover {
+    background-color: #0E3472;
+}

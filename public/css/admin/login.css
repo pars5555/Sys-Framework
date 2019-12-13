@@ -1,0 +1,21 @@
+.login-content {
+    height: 100vh;
+    max-width: 400px;
+    margin: auto;
+}
+.login-content .table-cell {
+    vertical-align: middle;
+}
+.login-content .login-inner {
+    padding: 20px 10px;
+    box-shadow: 0 0 10px 0 #1C5FB1;
+}
+.login-content .login-inner .logo-content {
+    display: block;
+    width: 140px;
+    height: 120px;
+    margin: 0 auto 10px;
+    background: rgba(255,255,255,0.8) url("../../img/right-logo-hy.gif") no-repeat scroll center center / contain ;
+    background-size: contain;
+}
+

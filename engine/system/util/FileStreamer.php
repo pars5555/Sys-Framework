@@ -1,20 +1,5 @@
 <?php
 
-/**
- * Helper class that works with files
- * have 3 general function
- * 1. send file to user using remote or local file
- * 2. read local file dirs
- * 3. upload files
- *
- * @author Levon Naghashyan <levon@naghashyan.com>
- * @site http://naghashyan.com
- * @year 2014-2015
- * @package framework.util
- * @version 2.0.0
- * @copyright Naghashyan Solutions LLC
- */
-
 namespace system\util {
 
     class FileStreamer {
@@ -38,7 +23,7 @@ namespace system\util {
          * @return files bytes
          */
         public function sendFile($file, $options = array()) {
-            $defaultOptions = array("filename" => null, "mimeType" => null, "contentLength" => null, "cache" => true, "remoteFile" => false, "streamer" => "standart", "headers" => array());
+            $defaultOptions = array("filename" => null, "mimeType" => null, "contentLength" => null, "cache" => false, "remoteFile" => false, "streamer" => "standart", "headers" => array());
             $options = array_merge($defaultOptions, $options);
             if ($options["remoteFile"] == false) {
                 if (strpos($file, "https://") !== false || strpos($file, "http://") !== false || strpos($file, "ftp://") !== false) {
@@ -50,12 +35,12 @@ namespace system\util {
             }
             //check if user set file name than send user's filename if not get from file
             if ($options["filename"] != null) {
-                header('Content-Disposition: ' . $options["filename"]);
+                header('Content-Disposition: attachment; filename=' . $options["filename"]);
             }
             //check if user set mimetype than send user if not get from file
             if ($options["mimeType"] == null) {
                 if ($options["remoteFile"] === false) {
-                    header('Content-type: ' . mime_content_type($file));
+                    header('Content-type: ' . $this->mime_content_type($file));
                 } else {
                     header('Content-type: ' . $options["remoteFileData"]["Content-Type"]);
                 }
@@ -77,8 +62,6 @@ namespace system\util {
 
             //send cache headers
             $this->sendCacheHeaders($file, $options);
-            header('X-Pad: avoid browser bug');
-            header("X-Powered-By: ngs");
             foreach ($options["headers"] as $key => $value) {
                 header($value);
             }
@@ -187,6 +170,72 @@ namespace system\util {
                     }
                 }
                 @fclose($file);
+            }
+        }
+
+        function mime_content_type($filename) {
+
+            $mime_types = array(
+                'txt' => 'text/plain',
+                'htm' => 'text/html',
+                'html' => 'text/html',
+                'php' => 'text/html',
+                'css' => 'text/css',
+                'js' => 'application/javascript',
+                'json' => 'application/json',
+                'xml' => 'application/xml',
+                'swf' => 'application/x-shockwave-flash',
+                'flv' => 'video/x-flv',
+                // images
+                'png' => 'image/png',
+                'jpe' => 'image/jpeg',
+                'jpeg' => 'image/jpeg',
+                'jpg' => 'image/jpeg',
+                'gif' => 'image/gif',
+                'bmp' => 'image/bmp',
+                'ico' => 'image/vnd.microsoft.icon',
+                'tiff' => 'image/tiff',
+                'tif' => 'image/tiff',
+                'svg' => 'image/svg+xml',
+                'svgz' => 'image/svg+xml',
+                // archives
+                'zip' => 'application/zip',
+                'rar' => 'application/x-rar-compressed',
+                'exe' => 'application/x-msdownload',
+                'msi' => 'application/x-msdownload',
+                'cab' => 'application/vnd.ms-cab-compressed',
+                // audio/video
+                'mp3' => 'audio/mpeg',
+                'qt' => 'video/quicktime',
+                'mov' => 'video/quicktime',
+                // adobe
+                'pdf' => 'application/pdf',
+                'psd' => 'image/vnd.adobe.photoshop',
+                'ai' => 'application/postscript',
+                'eps' => 'application/postscript',
+                'ps' => 'application/postscript',
+                // ms office
+                'doc' => 'application/msword',
+                'rtf' => 'application/rtf',
+                'xls' => 'application/vnd.ms-excel',
+                'ppt' => 'application/vnd.ms-powerpoint',
+                'pptx' => 'application/vnd.ms-powerpoint',
+                // open office
+                'odt' => 'application/vnd.oasis.opendocument.text',
+                'ods' => 'application/vnd.oasis.opendocument.spreadsheet',
+            );
+
+            $parts = explode('.', $filename);
+            $ext = strtolower(array_pop($parts ));
+            if (array_key_exists($ext, $mime_types)) {
+                return $mime_types[$ext];
+            } elseif (function_exists('finfo_open')) {
+                $finfo = finfo_open(FILEINFO_MIME);
+                $mimetype = finfo_file($finfo, $filename);
+                finfo_close($finfo);
+                return $mimetype;
+            } else {
+                return 'application/octet-stream';
             }
         }
 

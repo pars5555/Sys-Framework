@@ -2,7 +2,7 @@
 
 namespace system {
 
-    class Session{
+    class Session {
 
         private static $instance = null;
 
@@ -26,11 +26,17 @@ namespace system {
         }
 
         public function getSessionParam($key, $default = null, $filter = FILTER_DEFAULT) {
-            Request::getInstance()->session($key, $default, $filter);
+            return Request::getInstance()->session($key, $default, $filter);
+        }
+
+        public function unsetSessionParam($key) {
+            if (array_key_exists($key, $_SESSION)) {
+                unset($_SESSION[$key]);
+            }
         }
 
         public function getCookieParam($key, $default = null, $filter = FILTER_DEFAULT) {
-            Request::getInstance()->cookie($key, $default, $filter);
+            return Request::getInstance()->cookie($key, $default, $filter);
         }
 
         public static function startSession() {

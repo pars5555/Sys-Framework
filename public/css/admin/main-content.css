@@ -1,0 +1,14 @@
+.wrapper-content {
+    height: 100vh;
+    padding-top: 76px;
+}
+.wrapper-content .sidebar-cell{
+    width: 200px;
+    min-width: 200px;
+    background-color: #C1D1DB;
+}
+
+.wrapper-content .content-cell {
+    background-color: #E9E9E9;
+    padding: 20px 15px;
+}

@@ -1,24 +1,16 @@
 {
-    "aaa/bbb/ccc/{number}/": {
-        "model": "Index",
+    "sysdefault": {
+        "controller": "Index",
         "involve": [
             {
-                "model": "Model1",
-                "involve": [
-                    {
-                        "model": "Model2"
-                    }
-                ]
+                "controller": "Home"
             }
         ]
     },
-    "sysdefault": {
-        "model": "Index",
-        "involve": [
-            {
-                "model": "Model1"
-            }
-        ]
+    "logout": {
+        "controller": "actions.Logout"
+    }, 
+    "sysnotfound": {
+        "controller": "NotFound"
     }
-
 }

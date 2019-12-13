@@ -5,6 +5,8 @@ namespace system {
     class Request {
 
         private static $instance;
+        private $headers;
+        private $input = null;
 
         private function __construct() {
             
@@ -17,55 +19,83 @@ namespace system {
             return self::$instance;
         }
 
-        public function request($key, $default = null, $filter = FILTER_DEFAULT) {
-            $ret = filter_input(INPUT_REQUEST, $key, $filter);
-            if ($ret === null) {
-                return $default;
-            }
-            return $ret;
-            
+        public function getInt($key, $default = null, $delete = false) {
+            return intval($this->request($key, $default, $delete));
         }
-        public function get($key, $default = null, $filter = FILTER_DEFAULT) {
-            $ret = filter_input(INPUT_GET, $key, $filter);
-            if ($ret === null) {
-                return $default;
+        
+        public function getFloat($key, $default = null, $delete = false) {
+            return floatval($this->request($key, $default, $delete));
+        }
+        
+        public function getArray($key, $delimiter = ',') {
+            $arr = urldecode(trim($this->request($key, '')));
+            if (empty($arr)){
+                return [];
+            }
+            return explode($delimiter, $arr);
+        }
+        
+        public function request($key, $default = null, $delete = false) {
+            $ret = $this->get($key, $default, $delete);
+            if ($ret === $default) {
+                return $this->post($key, $default, $delete);
             }
             return $ret;
         }
 
-        public function post($key, $default = null, $filter = FILTER_DEFAULT) {
-            $ret = filter_input(INPUT_POST, $key, $filter);
-            if ($ret === null) {
-                return $default;
+        public function get($key, $default = null, $delete = false) {
+            if (array_key_exists($key, $_GET)) {
+                $ret = $_GET[$key];
+                if ($delete) {
+                    unset ($_GET[$key]);
+                }
+                return $ret;
             }
-            return $ret;
+            return $default;
+        }
+
+        public function post($key, $default = null, $delete = false) {
+            if (array_key_exists($key, $_POST)) {
+                $ret = $_POST[$key];
+                if ($delete) {
+                    unset ($_POST[$key]);
+                }
+                return $ret;
+            }
+            return $default;
         }
 
         public function cookie($key, $default = null, $filter = FILTER_DEFAULT) {
-            $ret = filter_input(INPUT_COOKIE, $key, $filter);
-            if ($ret === null) {
-                return $default;
+            if (array_key_exists($key, $_COOKIE)) {
+                return filter_var($_COOKIE[$key], $filter);
             }
-            return $ret;
+            return $default;
+        }
+
+        public function session($key, $default = null, $filter = FILTER_DEFAULT) {
+            if (array_key_exists($key, $_SESSION)) {
+                return filter_var($_SESSION[$key], $filter);
+            }
+            return $default;
         }
         
-        public function session($key, $default = null, $filter = FILTER_DEFAULT) {
-            $ret = filter_input(INPUT_SESSION, $key, $filter);
-            if ($ret === null) {
-                return $default;
+        public function header($key, $default = null) {
+            if (!isset($this->headers)){
+            $this->headers = getallheaders();
             }
-            return $ret;
+            if (array_key_exists($key, $this->headers)) {
+                return $this->headers[$key];
+            }
+            return $default;
         }
         
         public function input() {
-            if (isset($this->input))
-            {
-                return $this->input;
+            if (isset($this->input)) {
+                return $this->input;                           
             }
             $this->input = file_get_contents('php://input');
-            
         }
-        
+
         public function inputJson($assoc = false) {
             return json_decode($this->input(), $assoc);
         }

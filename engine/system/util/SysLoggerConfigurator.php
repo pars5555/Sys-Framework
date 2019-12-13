@@ -1,14 +1,5 @@
 <?php
 
-/**
- * FormValidator class contains utility functions for working with html form value validation.
- *
- * @author Levon Naghashyan
- * @site http://naghashyan.com
- * @mail levon@naghashyan.com
- * @year 2013-2015
- */
-
 namespace system\util {
 
     use LoggerAppenderDailyFile;

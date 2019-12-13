@@ -1,0 +1,1 @@
+this directory should be available always for production mode, and it should be writable

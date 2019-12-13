@@ -1,0 +1,18 @@
+.sidebar-nav .nav-item {
+    font-size: 14px;
+    color: #08234F;
+    text-transform: uppercase;
+    line-height: 16px;
+    border-bottom: 2px solid #97A6B3;
+    font-weight: 600;
+}
+.sidebar-nav .nav-item  a {    
+    padding: 5px 5px 3px 15px;
+}
+.sidebar-nav .nav-item  a:hover {
+    background-color: #D1E0ED;
+}
+.sidebar-nav .nav-item a.is_active {
+    background: #D1E0ED url('../../img/pentagon.png') no-repeat scroll left 10px center;
+
+} 

@@ -1,0 +1,17 @@
+{
+    "login": {
+        "controller": "Login"
+    },    
+    "logout": {
+        "controller": "actions.Logout"
+    },   
+    "sysdefault": {
+        "controller": "Index",
+        "involve": [
+            {
+                "controller": "Home"
+            }
+        ]
+    }
+
+}

@@ -11,7 +11,7 @@
         <section id="main" class="content">
             <header>
                 <div class="welcome">
-                    <h1>Welcome to Pars Framework</h1>
+                    <h1>Welcome to Sys Framework</h1>
                 </div>
             </header>
         </section>
